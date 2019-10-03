@@ -14,6 +14,7 @@
 		664C7BAA231D8B31001A0F78 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C7BA9231D8B31001A0F78 /* GameViewController.swift */; };
 		664C7BAD231D8B31001A0F78 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAB231D8B31001A0F78 /* Main.storyboard */; };
 		664C7BAF231D8B31001A0F78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAE231D8B31001A0F78 /* Assets.xcassets */; };
+		66D26D8B234648A100626F8F /* Drone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D26D8A234648A100626F8F /* Drone.swift */; };
 		66D52C18233282C4005CEBC6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D52C17233282C4005CEBC6 /* State.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		664C7BAC231D8B31001A0F78 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		664C7BAE231D8B31001A0F78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		664C7BB3231D8B31001A0F78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66D26D8A234648A100626F8F /* Drone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drone.swift; sourceTree = "<group>"; };
 		66D52C17233282C4005CEBC6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 				664C7BAB231D8B31001A0F78 /* Main.storyboard */,
 				664C7BAE231D8B31001A0F78 /* Assets.xcassets */,
 				66D52C17233282C4005CEBC6 /* State.swift */,
+				66D26D8A234648A100626F8F /* Drone.swift */,
 				664C7BB3231D8B31001A0F78 /* Info.plist */,
 			);
 			path = "Deliver!";
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				664C7BA8231D8B31001A0F78 /* GameScene.swift in Sources */,
+				66D26D8B234648A100626F8F /* Drone.swift in Sources */,
 				664C7BAA231D8B31001A0F78 /* GameViewController.swift in Sources */,
 				664C7BA2231D8B31001A0F78 /* AppDelegate.swift in Sources */,
 				66D52C18233282C4005CEBC6 /* State.swift in Sources */,
