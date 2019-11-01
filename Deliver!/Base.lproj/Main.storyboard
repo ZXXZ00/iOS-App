@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
-    <device id="retina6_5" orientation="landscape">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+    <device id="retina6_5" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,26 +22,26 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXP-a8-9FP">
-                                <rect key="frame" x="425" y="232" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wEs-Vt-TOL">
+                                <rect key="frame" x="421" y="241" width="54" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="onButtonUpWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="fiy-EF-EDr"/>
+                                    <action selector="onButtonTapWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="GW1-fu-qHB"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="sXP-a8-9FP" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" constant="40" id="5eK-zr-XY4"/>
+                            <constraint firstItem="wEs-Vt-TOL" firstAttribute="centerX" secondItem="oZA-iq-8b7" secondAttribute="centerX" id="3dG-iw-dKy"/>
                             <constraint firstItem="oZA-iq-8b7" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="Ftq-dQ-g5f"/>
-                            <constraint firstItem="sXP-a8-9FP" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="HIz-0a-jeA"/>
                             <constraint firstItem="oZA-iq-8b7" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" id="HkU-EE-OK1"/>
+                            <constraint firstItem="wEs-Vt-TOL" firstAttribute="top" secondItem="oZA-iq-8b7" secondAttribute="bottom" constant="10" id="g32-JY-Dik"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <connections>
-                        <outlet property="button" destination="sXP-a8-9FP" id="5ps-5a-Fqt"/>
-                        <outlet property="text" destination="oZA-iq-8b7" id="tJu-yI-RkC"/>
+                        <outlet property="button" destination="wEs-Vt-TOL" id="ubY-qR-Xof"/>
+                        <outlet property="text" destination="oZA-iq-8b7" id="mG3-Nm-KHm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

@@ -12,23 +12,21 @@ import CoreMotion
 
 class GameScene: SKScene {
     
-    //private var drone : SKNode
-    private let rect = SKShapeNode(rectOf: CGSize(width: 100, height: 50))
-    final let GRAVITY = CGFloat(9.8)
-    final let PIXELRATIO = CGFloat(150) // pixel ratio of 150 pixels = 1 meter
-    private var mass = CGFloat(10)
-    private var force: CGVector!
+    //var drone : SKNode
+    let rect = SKShapeNode(rectOf: CGSize(width: 100, height: 50))
+    static let GRAVITY = CGFloat(9.8)
+    static let PIXELRATIO = CGFloat(150) // pixel ratio of 150 pixels = 1 meter
+    var mass = CGFloat(10)
+    var force: CGVector!
     let motion = CMMotionManager()
-    private var t = 0.0
-    private var sample = true
-    private var count = 0
-    private let cameraNode = SKCameraNode()
-    
-    @IBOutlet weak var textLabel: UILabel?
-    
+    var t = 0.0
+    var sample = true
+    var count = 0
+    let cameraNode = SKCameraNode()
+        
     override func didMove(to view: SKView) {
         print(self.size)
-        force = CGVector(dx: 0, dy: GRAVITY*PIXELRATIO*mass/2)
+        force = CGVector(dx: 0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)
         rect.fillColor = .red
         rect.position = CGPoint(x: 0, y: 0)
         rect.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 50))
@@ -38,7 +36,7 @@ class GameScene: SKScene {
         startDeviceMotion()
     }
     
-    private func applyForce() {
+    func applyForce() {
         let r = rect.zRotation
         let pos = rect.position
         let pL = CGPoint(x: pos.x-25*cos(r), y: pos.y-25*sin(r))
@@ -52,7 +50,7 @@ class GameScene: SKScene {
         rect.physicsBody?.applyForce(vR, at: pR)
         }
     
-    private func startDeviceMotion() {
+    func startDeviceMotion() {
         if motion.isDeviceMotionAvailable {
             self.motion.deviceMotionUpdateInterval = 1.0/60.0
             self.motion.showsDeviceMovementDisplay = true
@@ -61,7 +59,7 @@ class GameScene: SKScene {
         }
     }
     
-    private func cameraSetup() {
+    func cameraSetup() {
         self.camera = cameraNode
         let range = SKRange(lowerLimit: 0, upperLimit: self.frame.maxY)
     }
@@ -72,7 +70,7 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+    
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -34,17 +34,18 @@ class GameViewController: UIViewController {
             view.showsFPS = true
             view.showsNodeCount = true
         }
+        
+        text?.removeFromSuperview()
+        button?.removeFromSuperview()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("appear")
     }
     override func viewWillDisappear(_ animated: Bool) {
-        print("disappear")
         super.viewWillDisappear(animated)
     }
-    @IBAction func onButtonUp(sender: UIButton){
+    @IBAction func onButtonTap(sender: UIButton){
         text?.text = "AnotherTest"
     }
 
