@@ -9,14 +9,16 @@
 import SpriteKit
 
 class Slider: SKSpriteNode {
-    let imageName: String
+    let imageName = "slider"
+    let knob = SKSpriteNode(imageNamed: "knob")
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("NSCoding not supported")
     }
     init() {
-        imageName = "slider"
         let sliderTexture = SKTexture(imageNamed: imageName)
         super.init(texture: sliderTexture, color: UIColor.clear, size: sliderTexture.size())
+        let zero = SKRange(constantValue: 0)
+        //let xConstraint =
     }
 }

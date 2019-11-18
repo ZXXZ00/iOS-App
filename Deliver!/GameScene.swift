@@ -12,8 +12,10 @@ import CoreMotion
 
 class GameScene: SKScene {
     
-    //var drone : SKNode
-    let rect = SKShapeNode(rectOf: CGSize(width: 100, height: 50))
+    let test = Drone()
+    let body = SKSpriteNode(imageNamed: "body")
+    let rotorL = SKSpriteNode(imageNamed: "rotorL")
+    let rotorR = SKSpriteNode(imageNamed: "rotorR")
     static let GRAVITY = CGFloat(9.8)
     static let PIXELRATIO = CGFloat(150) // pixel ratio of 150 pixels = 1 meter
     var mass = CGFloat(10)
@@ -27,18 +29,58 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         print(self.size)
         force = CGVector(dx: 0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)
-        rect.fillColor = .red
-        rect.position = CGPoint(x: 0, y: 0)
-        rect.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 50))
-        rect.physicsBody?.mass = mass
-
-        addChild(rect)
         startDeviceMotion()
+        
+        body.setScale(0.15)
+        body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.texture!.size())
+        body.physicsBody?.mass = mass
+        
+        rotorR.setScale(0.15)
+        rotorL.setScale(0.15)
+        rotorR.physicsBody = SKPhysicsBody(texture: rotorR.texture!, size: rotorR.texture!.size())
+        rotorL.physicsBody = SKPhysicsBody(texture: rotorL.texture!, size: rotorL.texture!.size())
+        rotorR.physicsBody?.mass = 0.0000000000000001
+        rotorL.physicsBody?.mass = 0.0000000000000001
+        
+        let jointL = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorL.physicsBody!, anchor: body.anchorPoint)
+        let jointR = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorR.physicsBody!, anchor: body.anchorPoint)
+
+        self.physicsWorld.add(jointL)
+
+        let zero = SKRange(constantValue: 0)
+        let constraintR = SKConstraint.distance(zero, to: CGPoint(x: 0, y: 0), in: body)
+        let constraintL = SKConstraint.distance(zero, to: CGPoint(x: 0, y: 0), in: body)
+        rotorR.constraints = [constraintR]
+        rotorL.constraints = [constraintL]
+        
+        addChild(body)
+        addChild(rotorL)
+        addChild(rotorR)
+        
+        //body.position = CGPoint(x: 0, y: 0)
+        /*
+        let rotorL = SKSpriteNode(imageNamed: "rotorL")
+        let rotorR = SKSpriteNode(imageNamed: "rotorR")
+        body.setScale(0.15)
+        rotorL.setScale(0.15)
+        rotorR.setScale(0.15)
+        addChild(body)
+        addChild(rotorL)
+        addChild(rotorR)
+ 
+        test.body.physicsBody?.isDynamic = false
+        test.rotorL.physicsBody?.isDynamic = false
+        test.rotorR.physicsBody?.isDynamic = false
+ 
+        addChild(test.body)
+        addChild(test.rotorL)
+        addChild(test.rotorR)
+ */
     }
     
     func applyForce() {
-        let r = rect.zRotation
-        let pos = rect.position
+        let r = body.zRotation
+        let pos = body.position
         let pL = CGPoint(x: pos.x-25*cos(r), y: pos.y-25*sin(r))
         let pR = CGPoint(x: pos.x+25*cos(r), y: pos.y+25*sin(r))
         /*print("pos: \(pos)")
@@ -46,8 +88,8 @@ class GameScene: SKScene {
         print("pR: \(pR)")*/
         let vL = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r))
         let vR = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r))
-        rect.physicsBody?.applyForce(vL, at: pL)
-        rect.physicsBody?.applyForce(vR, at: pR)
+        body.physicsBody?.applyForce(vL, at: pL)
+        body.physicsBody?.applyForce(vR, at: pR)
         }
     
     func startDeviceMotion() {
@@ -89,6 +131,7 @@ class GameScene: SKScene {
             sample = false
         }
         let delta = currentTime-t
+        //test.applyForce()
         applyForce()
         count += 1
         /*if let data = self.motion.accelerometerData {
@@ -117,7 +160,7 @@ class GameScene: SKScene {
             //print(z*180/Double.pi)
             let tmp = (z*180/Double.pi).rounded(.towardZero)
             //print(tmp)
-            rect.zRotation = CGFloat(tmp*Double.pi/180)
+            body.zRotation = CGFloat(tmp*Double.pi/180)
         }
     }
 }

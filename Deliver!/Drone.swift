@@ -11,7 +11,7 @@ import SpriteKit
 class Drone {
     let body = SKSpriteNode(imageNamed: "body")     //drone body
     let rotorL = SKSpriteNode(imageNamed: "rotorL") //right rotor
-    let rotorR = SKSpriteNode(imageNamed: "Rrotor") //left rotor
+    let rotorR = SKSpriteNode(imageNamed: "rotorR") //left rotor
     let jointL: SKPhysicsJoint
     let jointR: SKPhysicsJoint
     let constraintL: SKConstraint
@@ -37,6 +37,9 @@ class Drone {
         rotorL.physicsBody?.categoryBitMask = 0b00001
         rotorR.physicsBody?.categoryBitMask = 0b00001
         
+        rotorL.physicsBody?.isDynamic = false
+        rotorR.physicsBody?.isDynamic = false
+        
         jointL = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorL.physicsBody!, anchor: body.anchorPoint)
         jointR = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorR.physicsBody!, anchor: body.anchorPoint)
         let zero = SKRange(constantValue: 0)
@@ -53,8 +56,8 @@ class Drone {
         let pos = body.position
         let pL = CGPoint(x: pos.x-locationL.x*cos(r), y: pos.y-locationL.x*sin(r))
         let pR = CGPoint(x: pos.x+locationR.x*cos(r), y: pos.y+locationR.x*sin(r))
-        let vL = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r))
-        let vR = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r))
+        let vL = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r)*150)
+        let vR = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r)*150)
         body.physicsBody?.applyForce(vL, at: pL)
         body.physicsBody?.applyForce(vR, at: pR)
     }
