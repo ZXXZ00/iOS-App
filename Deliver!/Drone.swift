@@ -9,56 +9,74 @@
 import SpriteKit
 
 class Drone {
-    let body = SKSpriteNode(imageNamed: "body")     //drone body
-    let rotorL = SKSpriteNode(imageNamed: "rotorL") //right rotor
-    let rotorR = SKSpriteNode(imageNamed: "rotorR") //left rotor
-    let jointL: SKPhysicsJoint
-    let jointR: SKPhysicsJoint
-    let constraintL: SKConstraint
-    let constraintR: SKConstraint
+    let body = SKSpriteNode(imageNamed: "body")    //drone body
+    var rotors = [SKSpriteNode]()
     let mass: CGFloat
     var force: CGVector
-    let locationL: (x: CGFloat, y: CGFloat)
-    let locationR: (x: CGFloat, y: CGFloat)
+    var distancesToBody = [CGPoint]()
     
-    init() {
-        locationL = (x: 0, y: 0)
-        locationR = (x: 0, y: 0)
+    init(collectionOfRotors arr: [(CGPoint, String)]) {
+        mass = 10 // default mass is 10
+               // I will add a method to automatically compute the mass
+               // based on the shape and size of the drawing
+        force = CGVector(dx: 0.0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)
+        let zero = SKRange(constantValue: 0)
         
-        mass = 10.0
+        for i in arr {
+            let rotor = SKSpriteNode(imageNamed: i.1)
+            rotor.position = i.0
+            rotor.physicsBody = SKPhysicsBody(texture: rotor.texture!, size: rotor.texture!.size())
+            rotor.physicsBody?.mass = 0.0000000000000001
+            rotor.physicsBody?.contactTestBitMask = 0b00000001
+            let distance = SKConstraint.distance(zero, to: i.0, in: body)
+            let degree = SKRange(constantValue: -atan(i.0.y/i.0.x))
+            let orient = SKConstraint.orient(to: body, offset: degree)
+            rotor.constraints = [distance, orient] // line up rotor to body
+            rotors.append(rotor)
+            distancesToBody.append(i.0)
+        }
         
         body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.texture!.size())
-        rotorL.physicsBody = SKPhysicsBody(texture: rotorL.texture!, size: rotorL.texture!.size())
-        rotorR.physicsBody = SKPhysicsBody(texture: rotorR.texture!, size: rotorR.texture!.size())
-        body.physicsBody?.mass = CGFloat(mass-0.0000001)*GameScene.PIXELRATIO
-        rotorL.physicsBody?.mass = CGFloat(0.00000005*GameScene.PIXELRATIO)
-        rotorR.physicsBody?.mass = CGFloat(0.00000005*GameScene.PIXELRATIO)
-        body.physicsBody?.categoryBitMask = 0b000001
-        rotorL.physicsBody?.categoryBitMask = 0b00001
-        rotorR.physicsBody?.categoryBitMask = 0b00001
+        body.physicsBody?.mass = mass
+        body.physicsBody?.contactTestBitMask = 0b00000001
         
-        rotorL.physicsBody?.isDynamic = false
-        rotorR.physicsBody?.isDynamic = false
+    }
+    
+    
+    convenience init() {
+        var locations = [(CGPoint, String)]()
+
+        let locationL = CGPoint(x: -183, y: 143)
+        let locationR = CGPoint(x: 183, y: 143)
         
-        jointL = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorL.physicsBody!, anchor: body.anchorPoint)
-        jointR = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorR.physicsBody!, anchor: body.anchorPoint)
-        let zero = SKRange(constantValue: 0)
-        constraintR = SKConstraint.distance(zero, to: CGPoint(x: locationR.x, y: locationR.y), in: body)
-        constraintL = SKConstraint.distance(zero, to: CGPoint(x: locationL.x, y: locationL.y), in: body)
-        rotorR.constraints = [constraintR]
-        rotorL.constraints = [constraintL]
-        
-        force = CGVector(dx: 0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)
+        locations.append((locationL, "rotor"))
+        locations.append((locationR, "rotor"))
+        //locations store locations of rotors from left to right
+        //rotors also follow the left to right pattern
+        self.init(collectionOfRotors: locations)
     }
     
     func applyForce() {
         let r = body.zRotation
-        let pos = body.position
-        let pL = CGPoint(x: pos.x-locationL.x*cos(r), y: pos.y-locationL.x*sin(r))
+        let bodyP = body.position
+        for d in distancesToBody {
+            let verticalVector = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r))
+            let horizontalVector = CGVector(dx: force.dx*cos(r), dy: force.dx*sin(r))
+            var position = CGPoint(x: bodyP.x-d.x*cos(r), y: bodyP.x-d.x*sin(r))
+            if d.x > 0 {
+                position = CGPoint(x: bodyP.x+d.x*cos(r), y: bodyP.y+d.x*sin(r))
+            } // haven't fully verify the case for horizontal vector
+            // if the user sets the vector as pointed backward
+            // in other words, negative dx.
+            body.physicsBody?.applyForce(verticalVector, at: position)
+            body.physicsBody?.applyForce(horizontalVector, at: position)
+        }
+        /*let pL = CGPoint(x: pos.x-locationL.x*cos(r), y: pos.y-locationL.x*sin(r))
         let pR = CGPoint(x: pos.x+locationR.x*cos(r), y: pos.y+locationR.x*sin(r))
         let vL = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r)*150)
         let vR = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r)*150)
         body.physicsBody?.applyForce(vL, at: pL)
-        body.physicsBody?.applyForce(vR, at: pR)
+        body.physicsBody?.applyForce(vR, at: pR)*/
     }
 }
+

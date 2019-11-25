@@ -12,10 +12,10 @@ import CoreMotion
 
 class GameScene: SKScene {
     
-    let test = Drone()
+    //let test = Drone()
     let body = SKSpriteNode(imageNamed: "body")
-    let rotorL = SKSpriteNode(imageNamed: "rotorL")
-    let rotorR = SKSpriteNode(imageNamed: "rotorR")
+    let rotorL = SKSpriteNode(imageNamed: "rotor")
+    let rotorR = SKSpriteNode(imageNamed: "rotor")
     static let GRAVITY = CGFloat(9.8)
     static let PIXELRATIO = CGFloat(150) // pixel ratio of 150 pixels = 1 meter
     var mass = CGFloat(10)
@@ -28,30 +28,46 @@ class GameScene: SKScene {
         
     override func didMove(to view: SKView) {
         print(self.size)
+        //print(test.force)
         force = CGVector(dx: 0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)
         startDeviceMotion()
         
-        body.setScale(0.15)
+        //body.setScale(0.15)
         body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.texture!.size())
         body.physicsBody?.mass = mass
         
-        rotorR.setScale(0.15)
-        rotorL.setScale(0.15)
+        //rotorR.setScale(0.15)
+        //rotorL.setScale(0.15)
         rotorR.physicsBody = SKPhysicsBody(texture: rotorR.texture!, size: rotorR.texture!.size())
         rotorL.physicsBody = SKPhysicsBody(texture: rotorL.texture!, size: rotorL.texture!.size())
         rotorR.physicsBody?.mass = 0.0000000000000001
         rotorL.physicsBody?.mass = 0.0000000000000001
         
-        let jointL = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorL.physicsBody!, anchor: body.anchorPoint)
-        let jointR = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorR.physicsBody!, anchor: body.anchorPoint)
+        //let jointL = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorL.physicsBody!, anchor: body.anchorPoint)
+        //let jointR = SKPhysicsJointFixed.joint(withBodyA: body.physicsBody!, bodyB: rotorR.physicsBody!, anchor: body.anchorPoint)
 
-        self.physicsWorld.add(jointL)
-
+        //self.physicsWorld.add(jointL)
+        
+        rotorL.position = CGPoint(x: -183, y: 143)
+        rotorR.position = CGPoint(x: 183, y: 143)
+        body.setScale(0.15)
+        rotorR.setScale(0.15)
+        rotorL.setScale(0.15)
         let zero = SKRange(constantValue: 0)
-        let constraintR = SKConstraint.distance(zero, to: CGPoint(x: 0, y: 0), in: body)
-        let constraintL = SKConstraint.distance(zero, to: CGPoint(x: 0, y: 0), in: body)
-        rotorR.constraints = [constraintR]
-        rotorL.constraints = [constraintL]
+        //let nientyDegree = SKRange(constantValue: -CGFloat.pi/2)
+        let nientyDegree = SKRange(constantValue: -atan(143/183))
+        let degree: CGFloat = atan(143/183)
+        print(degree)
+        let test: CGFloat = 143/183
+        print(test)
+        let constraintR = SKConstraint.distance(zero, to: CGPoint(x: 183, y: 143), in: body)
+        let constraintL = SKConstraint.distance(zero, to: CGPoint(x: -183, y: 143), in: body)
+        //let orientR = SKConstraint.orient(to: CGPoint(x: 183, y: 0), in: body, offset: nientyDegree)
+        //let orientL = SKConstraint.orient(to: CGPoint(x: -183, y: 0), in: body, offset: nientyDegree)
+        let orientR = SKConstraint.orient(to: body, offset: nientyDegree)
+        let orientL = SKConstraint.orient(to: body, offset: nientyDegree)
+        rotorR.constraints = [constraintR, orientR]
+        rotorL.constraints = [constraintL, orientL]
         
         addChild(body)
         addChild(rotorL)
@@ -80,6 +96,7 @@ class GameScene: SKScene {
     
     func applyForce() {
         let r = body.zRotation
+        print(r)
         let pos = body.position
         let pL = CGPoint(x: pos.x-25*cos(r), y: pos.y-25*sin(r))
         let pR = CGPoint(x: pos.x+25*cos(r), y: pos.y+25*sin(r))
