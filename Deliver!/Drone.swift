@@ -33,13 +33,14 @@ class Drone {
             let orient = SKConstraint.orient(to: body, offset: degree)
             rotor.constraints = [distance, orient] // line up rotor to body
             rotors.append(rotor)
+            rotor.setScale(0.15)
             distancesToBody.append(i.0)
         }
         
         body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.texture!.size())
         body.physicsBody?.mass = mass
         body.physicsBody?.contactTestBitMask = 0b00000001
-        
+        body.setScale(0.15)
     }
     
     
@@ -56,27 +57,23 @@ class Drone {
         self.init(collectionOfRotors: locations)
     }
     
+    func addAll(_ scene: SKScene) {
+        scene.addChild(body)
+        for rotor in rotors {
+            scene.addChild(rotor)
+        }
+    }
+    
     func applyForce() {
         let r = body.zRotation
         let bodyP = body.position
         for d in distancesToBody {
             let verticalVector = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r))
             let horizontalVector = CGVector(dx: force.dx*cos(r), dy: force.dx*sin(r))
-            var position = CGPoint(x: bodyP.x-d.x*cos(r), y: bodyP.x-d.x*sin(r))
-            if d.x > 0 {
-                position = CGPoint(x: bodyP.x+d.x*cos(r), y: bodyP.y+d.x*sin(r))
-            } // haven't fully verify the case for horizontal vector
-            // if the user sets the vector as pointed backward
-            // in other words, negative dx.
+            let position = CGPoint(x: bodyP.x-d.x*cos(r), y: bodyP.y-d.x*sin(r))
             body.physicsBody?.applyForce(verticalVector, at: position)
             body.physicsBody?.applyForce(horizontalVector, at: position)
         }
-        /*let pL = CGPoint(x: pos.x-locationL.x*cos(r), y: pos.y-locationL.x*sin(r))
-        let pR = CGPoint(x: pos.x+locationR.x*cos(r), y: pos.y+locationR.x*sin(r))
-        let vL = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r)*150)
-        let vR = CGVector(dx: -force.dy*sin(r), dy: force.dy*cos(r)*150)
-        body.physicsBody?.applyForce(vL, at: pL)
-        body.physicsBody?.applyForce(vR, at: pR)*/
     }
 }
 

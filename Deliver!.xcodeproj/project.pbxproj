@@ -15,7 +15,6 @@
 		664C7BAD231D8B31001A0F78 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAB231D8B31001A0F78 /* Main.storyboard */; };
 		664C7BAF231D8B31001A0F78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAE231D8B31001A0F78 /* Assets.xcassets */; };
 		66684076236BAA2F00BF7E73 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66684075236BAA2F00BF7E73 /* MenuScene.swift */; };
-		66684078236C4F5200BF7E73 /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66684077236C4F5200BF7E73 /* Slider.swift */; };
 		66D26D8B234648A100626F8F /* Drone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D26D8A234648A100626F8F /* Drone.swift */; };
 		66D52C18233282C4005CEBC6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D52C17233282C4005CEBC6 /* State.swift */; };
 /* End PBXBuildFile section */
@@ -31,7 +30,6 @@
 		664C7BAE231D8B31001A0F78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		664C7BB3231D8B31001A0F78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66684075236BAA2F00BF7E73 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
-		66684077236C4F5200BF7E73 /* Slider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
 		66D26D8A234648A100626F8F /* Drone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drone.swift; sourceTree = "<group>"; };
 		66D52C17233282C4005CEBC6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,7 +74,6 @@
 				664C7BAE231D8B31001A0F78 /* Assets.xcassets */,
 				66D52C17233282C4005CEBC6 /* State.swift */,
 				66D26D8A234648A100626F8F /* Drone.swift */,
-				66684077236C4F5200BF7E73 /* Slider.swift */,
 				664C7BB3231D8B31001A0F78 /* Info.plist */,
 			);
 			path = "Deliver!";
@@ -160,7 +157,6 @@
 				66684076236BAA2F00BF7E73 /* MenuScene.swift in Sources */,
 				664C7BA2231D8B31001A0F78 /* AppDelegate.swift in Sources */,
 				66D52C18233282C4005CEBC6 /* State.swift in Sources */,
-				66684078236C4F5200BF7E73 /* Slider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
