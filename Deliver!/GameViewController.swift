@@ -14,6 +14,7 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var text: UILabel?
     @IBOutlet weak var button: UIButton?
+    static var sensitivity: CGFloat = 100.0
     
     override func viewDidLoad() {
         super.viewDidLoad()

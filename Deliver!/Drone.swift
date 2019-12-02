@@ -9,16 +9,27 @@
 import SpriteKit
 
 class Drone {
-    let body = SKSpriteNode(imageNamed: "body")    //drone body
+    let body: SKSpriteNode
     var rotors = [SKSpriteNode]()
     let mass: CGFloat
     var force: CGVector
     var distancesToBody = [CGPoint]()
+    var bodyScale: CGFloat = 1.0
+    var rotorScale: CGFloat = 1.0
     
-    init(collectionOfRotors arr: [(CGPoint, String)]) {
+    init(droneBodyName: String, collectionOfRotors arr: [(CGPoint, String)]) {
+        body = SKSpriteNode(imageNamed: droneBodyName)
+        
         mass = 10 // default mass is 10
                // I will add a method to automatically compute the mass
                // based on the shape and size of the drawing
+        if droneBodyName == "body" {
+            bodyScale = 0.15
+        }
+        if arr[0].1 == "rotor" {
+            rotorScale = 0.15
+        }
+        
         force = CGVector(dx: 0.0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)
         let zero = SKRange(constantValue: 0)
         
@@ -33,14 +44,14 @@ class Drone {
             let orient = SKConstraint.orient(to: body, offset: degree)
             rotor.constraints = [distance, orient] // line up rotor to body
             rotors.append(rotor)
-            rotor.setScale(0.15)
+            rotor.setScale(rotorScale)
             distancesToBody.append(i.0)
         }
         
         body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.texture!.size())
         body.physicsBody?.mass = mass
         body.physicsBody?.contactTestBitMask = 0b00000001
-        body.setScale(0.15)
+        body.setScale(bodyScale)
     }
     
     
@@ -54,7 +65,8 @@ class Drone {
         locations.append((locationR, "rotor"))
         //locations store locations of rotors from left to right
         //rotors also follow the left to right pattern
-        self.init(collectionOfRotors: locations)
+        
+        self.init(droneBodyName: "body", collectionOfRotors: locations)
     }
     
     func addAll(_ scene: SKScene) {
@@ -74,6 +86,16 @@ class Drone {
             body.physicsBody?.applyForce(verticalVector, at: position)
             body.physicsBody?.applyForce(horizontalVector, at: position)
         }
+    }
+    
+    func startEngine() {
+        let negativeRotation = SKAction.scaleX(to: -rotorScale, duration: 0.08)
+        let positiveRotation = SKAction.scaleX(to: rotorScale, duration: 0.08)
+        let sequence = SKAction.sequence([negativeRotation, positiveRotation])
+        for rotor in rotors {
+            rotor.run(.repeatForever(sequence))
+        }
+        rotors[0].run(.repeatForever(sequence))
     }
 }
 
