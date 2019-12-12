@@ -30,6 +30,10 @@ class GameScene: SKScene {
         defaultDrone.addAll(self)
         cameraSetup()
         defaultDrone.startEngine()
+        
+        let house = self.childNode(withName: "house1")
+        house?.xScale = house!.xScale * GameViewController.sizeCoefficient
+        house?.yScale = house!.yScale * GameViewController.sizeCoefficient
     }
     
     func startDeviceMotion() {
@@ -95,6 +99,7 @@ class GameScene: SKScene {
             let z = data.attitude.yaw
             let tmp = (z*180/Double.pi).rounded(.towardZero)
             let rotation = CGFloat(tmp*Double.pi/180)
+            print(z, rotation)
             defaultDrone.body.zRotation = rotation
             defaultDrone.applyForce()
         }

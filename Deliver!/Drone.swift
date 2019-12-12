@@ -24,10 +24,10 @@ class Drone {
                // I will add a method to automatically compute the mass
                // based on the shape and size of the drawing
         if droneBodyName == "body" {
-            bodyScale = 0.15
+            bodyScale = 0.15 * GameViewController.sizeCoefficient
         }
         if arr[0].1 == "rotor" {
-            rotorScale = 0.15
+            rotorScale = 0.15 * GameViewController.sizeCoefficient
         }
         
         force = CGVector(dx: 0.0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)

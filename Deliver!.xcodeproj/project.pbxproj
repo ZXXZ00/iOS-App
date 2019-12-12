@@ -17,10 +17,11 @@
 		66684076236BAA2F00BF7E73 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66684075236BAA2F00BF7E73 /* MenuScene.swift */; };
 		66D26D8B234648A100626F8F /* Drone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D26D8A234648A100626F8F /* Drone.swift */; };
 		66D52C18233282C4005CEBC6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D52C17233282C4005CEBC6 /* State.swift */; };
+		66EA770423A1E1960010DCE4 /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EA770323A1E1960010DCE4 /* Devices.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		664C7B9E231D8B31001A0F78 /* Deliver!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deliver!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		664C7B9E231D8B31001A0F78 /* Drone!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drone!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		664C7BA1231D8B31001A0F78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		664C7BA3231D8B31001A0F78 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		664C7BA5231D8B31001A0F78 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -32,6 +33,7 @@
 		66684075236BAA2F00BF7E73 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		66D26D8A234648A100626F8F /* Drone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drone.swift; sourceTree = "<group>"; };
 		66D52C17233282C4005CEBC6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		66EA770323A1E1960010DCE4 /* Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +58,7 @@
 		664C7B9F231D8B31001A0F78 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				664C7B9E231D8B31001A0F78 /* Deliver!.app */,
+				664C7B9E231D8B31001A0F78 /* Drone!.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +72,7 @@
 				664C7BA7231D8B31001A0F78 /* GameScene.swift */,
 				66684075236BAA2F00BF7E73 /* MenuScene.swift */,
 				664C7BA9231D8B31001A0F78 /* GameViewController.swift */,
+				66EA770323A1E1960010DCE4 /* Devices.swift */,
 				664C7BAB231D8B31001A0F78 /* Main.storyboard */,
 				664C7BAE231D8B31001A0F78 /* Assets.xcassets */,
 				66D52C17233282C4005CEBC6 /* State.swift */,
@@ -96,7 +99,7 @@
 			);
 			name = "Deliver!";
 			productName = "Deliver!";
-			productReference = 664C7B9E231D8B31001A0F78 /* Deliver!.app */;
+			productReference = 664C7B9E231D8B31001A0F78 /* Drone!.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -155,6 +158,7 @@
 				66D26D8B234648A100626F8F /* Drone.swift in Sources */,
 				664C7BAA231D8B31001A0F78 /* GameViewController.swift in Sources */,
 				66684076236BAA2F00BF7E73 /* MenuScene.swift in Sources */,
+				66EA770423A1E1960010DCE4 /* Devices.swift in Sources */,
 				664C7BA2231D8B31001A0F78 /* AppDelegate.swift in Sources */,
 				66D52C18233282C4005CEBC6 /* State.swift in Sources */,
 			);
@@ -295,14 +299,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LDB5QZMQ6L;
 				INFOPLIST_FILE = "Deliver!/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "zxxz.Deliver-";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zxxz.Deliver-";
+				PRODUCT_NAME = "Drone!";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -313,14 +319,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LDB5QZMQ6L;
 				INFOPLIST_FILE = "Deliver!/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "zxxz.Deliver-";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zxxz.Deliver-";
+				PRODUCT_NAME = "Drone!";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

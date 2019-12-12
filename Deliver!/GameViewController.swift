@@ -15,6 +15,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var text: UILabel?
     @IBOutlet weak var button: UIButton?
     static var sensitivity: CGFloat = 100.0
+    static var sizeCoefficient: CGFloat = 1.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,20 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
         
+        let device = UIDevice()
+        if device.model == "iPhone" || device.model == "iPod" {
+            GameViewController.sizeCoefficient = 0.5
+        }
+        
+        /*
+        var systemInfo = utsname()
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+          guard let value = element.value as? Int8, value != 0 else { return identifier }
+          return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        print(identifier)
+        */
         text?.removeFromSuperview()
         button?.removeFromSuperview()
     }
