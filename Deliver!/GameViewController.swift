@@ -19,6 +19,10 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            GameViewController.sizeCoefficient = 0.5
+        }
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -37,20 +41,6 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
         
-        let device = UIDevice()
-        if device.model == "iPhone" || device.model == "iPod" {
-            GameViewController.sizeCoefficient = 0.5
-        }
-        
-        /*
-        var systemInfo = utsname()
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
-          guard let value = element.value as? Int8, value != 0 else { return identifier }
-          return identifier + String(UnicodeScalar(UInt8(value)))
-        }
-        print(identifier)
-        */
         text?.removeFromSuperview()
         button?.removeFromSuperview()
     }
@@ -70,11 +60,7 @@ class GameViewController: UIViewController {
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
+        return .landscape
     }
 
     override var prefersStatusBarHidden: Bool {

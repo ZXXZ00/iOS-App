@@ -24,39 +24,53 @@ class GameScene: SKScene {
     var previousTime: TimeInterval = 0.0
     var dx: CGFloat = 0.0 // dx is change in x direction
     let cameraNode = SKCameraNode()
-        
+    var background: SKNode?
+            
     override func didMove(to view: SKView) {
         startDeviceMotion()
         defaultDrone.addAll(self)
-        cameraSetup()
-        defaultDrone.startEngine()
         
-        let house = self.childNode(withName: "house1")
-        house?.xScale = house!.xScale * GameViewController.sizeCoefficient
-        house?.yScale = house!.yScale * GameViewController.sizeCoefficient
+        let coeff:CGFloat = GameViewController.sizeCoefficient
+        print("coeff", coeff)
+        background = childNode(withName: "background")
+        background!.physicsBody = SKPhysicsBody(edgeLoopFrom: background!.frame)
+        background?.setScale(coeff)
+        let house1 = childNode(withName: "house1")
+        house1?.setScale(coeff)
+                
+        cameraSetup()
     }
     
     func startDeviceMotion() {
         if motion.isDeviceMotionAvailable {
             self.motion.deviceMotionUpdateInterval = 1.0/60.0
             self.motion.showsDeviceMovementDisplay = true
-            self.motion.startDeviceMotionUpdates()
+            self.motion.startDeviceMotionUpdates(using: .xArbitraryZVertical)
         }
+        defaultDrone.startEngine()
     }
     
     func cameraSetup() {
         self.camera = cameraNode
-        let range = SKRange(lowerLimit: 0, upperLimit: self.frame.maxY-100)
+        let range = SKRange(lowerLimit: 0, upperLimit: self.frame.maxY-50)
+        // minus 50 to give more space to show drone
         let constraint1 = SKConstraint.distance(range, to: defaultDrone.body)
-        let constraint2 = SKConstraint.positionY(SKRange(lowerLimit: -1000, upperLimit: 1000))
-        let constraint3 = SKConstraint.positionX(SKRange(lowerLimit: -2500, upperLimit: 2500))
-        cameraNode.constraints = [constraint1, constraint2, constraint3]
+        cameraNode.constraints = [constraint1]
+        if let limitX = background?.frame.size.width {
+            let constraint2 = SKConstraint.positionX(SKRange(lowerLimit: -limitX/2+frame.maxX, upperLimit: limitX/2-frame.maxX))
+            cameraNode.constraints?.append(constraint2)
+        }
+        if let limitY = background?.frame.size.height {
+            let constraint3 = SKConstraint.positionY(SKRange(lowerLimit: -limitY/2+frame.maxY, upperLimit: limitY/2-frame.maxY))
+            cameraNode.constraints?.append(constraint3)
+        }
+        
         addChild(cameraNode)
     }
 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -96,10 +110,15 @@ class GameScene: SKScene {
         }
         
         if let data = self.motion.deviceMotion {
+            let x = data.attitude.pitch
+            let y = data.attitude.roll
             let z = data.attitude.yaw
-            let tmp = (z*180/Double.pi).rounded(.towardZero)
-            let rotation = CGFloat(tmp*Double.pi/180)
-            print(z, rotation)
+            let tmp = (z*180/Double.pi).rounded(.toNearestOrAwayFromZero)
+            let xD = (x*180/Double.pi).rounded(.toNearestOrAwayFromZero)
+            let yD = (y*180/Double.pi).rounded(.toNearestOrAwayFromZero)
+            let rotation = -CGFloat(xD*Double.pi/180)
+            //print("x:", xD, "y:", yD, "z:", tmp)
+            //print(z, tmp, rotation)o
             defaultDrone.body.zRotation = rotation
             defaultDrone.applyForce()
         }
