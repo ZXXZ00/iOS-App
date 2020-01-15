@@ -30,6 +30,8 @@
 		<string>accelerometer</string>
 		<string>gyroscope</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

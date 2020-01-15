@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController{
     
     @IBOutlet weak var text: UILabel?
     @IBOutlet weak var button: UIButton?

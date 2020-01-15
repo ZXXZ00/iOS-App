@@ -7,8 +7,7 @@
 //
 
 struct Devices {
-    var Resolution: [String: String] =
-        ["test": "test"]
+    
 }
 
 /*
