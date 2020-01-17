@@ -17,28 +17,35 @@ class Drone {
     var bodyScale: CGFloat = 1.0
     var rotorScale: CGFloat = 1.0
     
+    let powerLimitCoefficient: CGFloat = 5
+    let powerLowerLimit: CGFloat
+    let powerUpperLimit: CGFloat
+    
     init(droneBodyName: String, collectionOfRotors arr: [(CGPoint, String)]) {
         // it takes the name of the file of the drone body design and collections of rotors, which is an array of tuple.
         //The first part of the tuple is the location of the rotor relative to the center of the drone body. The second part is the file name.
         body = SKSpriteNode(imageNamed: droneBodyName)
+        body.zPosition = 0
         mass = 10 // default mass is 10
                // I will add a method to automatically compute the mass
                // based on the shape and size of the drawing
         if droneBodyName == "body" {
             bodyScale = 0.15*GameViewController.sizeCoefficient
         }
-        
         rotorScale = 0.15*GameViewController.sizeCoefficient
         
-        force = CGVector(dx: 0.0, dy: GameScene.GRAVITY*GameScene.PIXELRATIO*mass/2)
+        let divisor = CGFloat(arr.count)
+        // use to divide the gravity by the number of rotors
+        force = CGVector(dx: 0.0, dy: GameScene.gravity*GameScene.PIXELRATIO*mass/divisor)
         let zero = SKRange(constantValue: 0)
         
         for i in arr {
             let rotor = SKSpriteNode(imageNamed: i.1)
+            rotor.zPosition = 0
             rotor.position = i.0
             rotor.physicsBody = SKPhysicsBody(rectangleOf: rotor.size)
             rotor.physicsBody?.mass = 0.0000000000000001
-            rotor.physicsBody?.contactTestBitMask = 0b00000001
+            rotor.physicsBody?.categoryBitMask = 0b00000001
             let distance = SKConstraint.distance(zero, to: i.0, in: body)
             let degree = SKRange(constantValue: -atan(i.0.y/i.0.x))
             let orient = SKConstraint.orient(to: body, offset: degree)
@@ -49,9 +56,14 @@ class Drone {
         }
         
         body.physicsBody = SKPhysicsBody(texture: body.texture!, size: body.texture!.size())
+        body.physicsBody?.restitution = 0.1
+        // default 0.1, but subject to change depends on the material
         body.physicsBody?.mass = mass
-        body.physicsBody?.contactTestBitMask = 0b00000001
+        body.physicsBody?.categoryBitMask = 0b00000001
         body.setScale(bodyScale)
+        
+        powerLowerLimit = force.dy-90*powerLimitCoefficient
+        powerUpperLimit = force.dy+90*powerLimitCoefficient
     }
     
     

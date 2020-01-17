@@ -12,28 +12,57 @@ import GameplayKit
 
 class GameViewController: UIViewController{
     
-    @IBOutlet weak var text: UILabel?
-    @IBOutlet weak var button: UIButton?
     static var sensitivity: CGFloat = 100.0
     static var sizeCoefficient: CGFloat = 1.0
+    static var orientation: CGFloat = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
         if UIDevice.current.userInterfaceIdiom == .phone {
             GameViewController.sizeCoefficient = 0.5
+        }
+        if UIApplication.shared.statusBarOrientation == .landscapeRight {
+            GameViewController.orientation = -1 // 1.0 is landscapeLeft
         }
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = GameScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                scene.size = self.view.frame.size
-                
-                // Present the scene
-                view.presentScene(scene)
+            print(UserDefaults.standard.double(forKey: "LastRun"))
+            if UserDefaults.standard.double(forKey: "LastRun") == 0.0 {
+                print("Tutorial")
+                if let scene = GameScene(fileNamed: "Tutorial") {
+                    scene.scaleMode = .aspectFill
+                    scene.size = self.view.frame.size
+                    view.presentScene(scene)
+                }
+            } else {
+                print("GameScene")
+                /*
+                if let scene = GameScene(fileNamed: "GameScene") {
+                    // Set the scale mode to scale to fit the window
+                    scene.scaleMode = .aspectFill
+                    scene.size = self.view.frame.size
+                    
+                    // Present the scene
+                    view.presentScene(scene)
+                } */
+                let texture1 = SKTexture(imageNamed: "clouds")
+                let texture2 = SKTexture(imageNamed: "background")
+                let texture = [texture2]
+                SKTexture.preload(texture) {
+                    SKTexture.preload([texture1]) {
+                        
+                        DispatchQueue.main.async {
+                            let scene = GameScene(size: self.view.frame.size)
+                            view.presentScene(scene)
+                        }
+                    }
+                }
             }
+            let date = Date()
+            let time: Double = Double(date.timeIntervalSince1970)
+            UserDefaults.standard.set(time, forKey: "LastRun")
+            print(time)
             
             view.ignoresSiblingOrder = true
             
@@ -41,8 +70,6 @@ class GameViewController: UIViewController{
             view.showsNodeCount = true
         }
         
-        text?.removeFromSuperview()
-        button?.removeFromSuperview()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,9 +77,6 @@ class GameViewController: UIViewController{
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-    }
-    @IBAction func onButtonTap(sender: UIButton){
-        text?.text = "AnotherTest"
     }
 
     override var shouldAutorotate: Bool {

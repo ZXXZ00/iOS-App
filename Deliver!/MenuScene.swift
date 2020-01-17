@@ -10,24 +10,17 @@ import SpriteKit
 
 class MenuScene: SKScene{
     
-    func changeScene(sksFilename: String, typeOfScene: String) {
-        if typeOfScene == "GameScene" {
-            if let scene = GameScene(fileNamed: sksFilename) {
-                self.view?.presentScene(scene)
-            }
-        }
-        if typeOfScene == "MenuScene" {
-            if let scene = MenuScene(fileNamed: sksFilename) {
-                self.view?.presentScene(scene)
-            }
+    @objc func startGame() {
+        if let scene = GameScene(fileNamed: "GameScene") {
+            self.view?.presentScene(scene)
         }
     }
     
     override func didMove(to view: SKView) {
-        
+        let start = Button(imageNamed: "start")
+        start.target = self
+        start.action = #selector(MenuScene.startGame)
+        addChild(start)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
 }

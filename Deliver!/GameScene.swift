@@ -10,13 +10,14 @@ import SpriteKit
 import GameplayKit
 import CoreMotion
 
-class GameScene: SKScene, ChangeSceneDelegate{
+class GameScene: SKScene{
     
     let defaultDrone = Drone()
-    static let GRAVITY = CGFloat(9.8)
+    static let gravity = CGFloat(9.8)
     static let PIXELRATIO = CGFloat(150)
     // pixel ratio of 150 pixels = 1 meter
     let motion = CMMotionManager()
+    var isEngineStarted = false
     var start = true
     var startTime = 0.0
     var t = 0.0 // t stands for time
@@ -25,34 +26,38 @@ class GameScene: SKScene, ChangeSceneDelegate{
     var dx: CGFloat = 0.0 // dx is change in x direction
     let cameraNode = SKCameraNode()
     var background: SKNode?
-    
-    let dropButton = Button(imageName: "dropButton")
-    let loadButton = Button(imageName: "loadButton")
-            
+    var houses: [SKNode] = []
+    // SKSpriteNode below are dashboard section
+    let dashboard = SKSpriteNode(imageNamed: "dashboard")
+    let dashboardPointer = SKSpriteNode(imageNamed: "pointer")
+    let level = SKSpriteNode(imageNamed: "level")
+    let line = SKSpriteNode(imageNamed: "line")
+    var power = -CGFloat.pi/2 // rotation of dashboardPointer
+                    
     override func didMove(to view: SKView) {
         startDeviceMotion()
         defaultDrone.addAll(self)
         
         let coeff:CGFloat = GameViewController.sizeCoefficient
         print("coeff", coeff)
-        background = childNode(withName: "background")
-        background!.physicsBody = SKPhysicsBody(edgeLoopFrom: background!.frame)
-        background?.setScale(coeff)
-        let house1 = childNode(withName: "house1")
-        house1?.setScale(coeff)
-                
+        //background = childNode(withName: "background")
+        //background = SKSpriteNode(imageNamed: "test")
+        //background!.physicsBody = SKPhysicsBody(edgeLoopFrom: background!.frame)
+        //background?.setScale(coeff)
+        //background = SKSpriteNode(texture: texture1)
+        //addChild(background!)
+        //addChild(clouds)
+        
         cameraSetup()
         
-        let test = Button(imageName: "start", action: #selector(GameScene.changeTest), target: self)
-        
-        addChild(test)
     }
     
-    @objc func changeTest() {
-        print("it run")
-        if let scene = GameScene(fileNamed: "GameScene") {
-            self.view?.presentScene(scene)
-        }
+    @objc func loadPackage() {
+        
+    }
+    
+    @objc func dropPackage() {
+        
     }
     
     func changeScene(sksFilename: String, typeOfScene: String) {
@@ -75,9 +80,15 @@ class GameScene: SKScene, ChangeSceneDelegate{
             self.motion.startDeviceMotionUpdates(using: .xArbitraryZVertical)
         }
         defaultDrone.startEngine()
+        dashboardPointer.run(SKAction.rotate(toAngle: power, duration: 3, shortestUnitArc: true)) {
+            self.isEngineStarted = true
+            print(self.isEngineStarted)
+        }
     }
     
     func cameraSetup() {
+        print("Y", self.frame.maxY)
+        print("X", self.frame.maxX)
         self.camera = cameraNode
         let range = SKRange(lowerLimit: 0, upperLimit: self.frame.maxY-50)
         // minus 50 to give more space to show drone
@@ -86,24 +97,37 @@ class GameScene: SKScene, ChangeSceneDelegate{
         if let limitX = background?.frame.size.width {
             let constraint2 = SKConstraint.positionX(SKRange(lowerLimit: -limitX/2+frame.maxX, upperLimit: limitX/2-frame.maxX))
             cameraNode.constraints?.append(constraint2)
-        }
+        } // limit in x direction
         if let limitY = background?.frame.size.height {
             let constraint3 = SKConstraint.positionY(SKRange(lowerLimit: -limitY/2+frame.maxY, upperLimit: limitY/2-frame.maxY))
             cameraNode.constraints?.append(constraint3)
-        }
-        let inGameUI = SKSpriteNode(imageNamed: "inGameUI")
-        inGameUI.setScale(0.6*GameViewController.sizeCoefficient)
-        cameraNode.addChild(inGameUI)
+        } // limit in y direction
+        
+        // dashboard section
+        dashboard.setScale(0.8*GameViewController.sizeCoefficient)
+        dashboardPointer.setScale(0.8*GameViewController.sizeCoefficient)
+        level.setScale(0.8*GameViewController.sizeCoefficient)
+        line.setScale(0.8*GameViewController.sizeCoefficient)
+        let center = CGPoint(x: self.frame.maxX-75, y: self.frame.maxY-60)
+        dashboard.position = center
+        dashboardPointer.position = center
+        level.position = center
+        line.position = center
+        dashboard.zPosition = 1
+        dashboardPointer.zPosition = 2
+        level.zPosition = 2
+        line.zPosition = 3
+        cameraNode.addChild(dashboard)
+        cameraNode.addChild(dashboardPointer)
+        cameraNode.addChild(level)
+        cameraNode.addChild(line)
+        
         addChild(cameraNode)
     }
 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let touchedNodes = nodes(at: touch.location(in: self))
-            //print(touchedNodes)
-        }
-        //print("test")
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -117,9 +141,23 @@ class GameScene: SKScene, ChangeSceneDelegate{
                     if dt == 0 { // sometimes dt will be 0
                         dt = 0.01 // but dt has to be larger than 0
                     }
-                    print("dx", dx, "dt", dt)
                     // calculate touch move speed
-                    defaultDrone.force.dy = defaultDrone.force.dy + dx/dt/GameViewController.sensitivity
+                    if isEngineStarted {
+                        let change = dx/dt/GameViewController.sensitivity
+                        power = power - change*CGFloat.pi/180/defaultDrone.powerLimitCoefficient
+                        if power <= 0 && power >= -CGFloat.pi {
+                            defaultDrone.force.dy = defaultDrone.force.dy + change
+                            dashboardPointer.zRotation = power
+                        } else if power > 0 {
+                            power = 0
+                            defaultDrone.force.dy = defaultDrone.powerLowerLimit
+                            dashboardPointer.zRotation = power
+                        } else if power < -CGFloat.pi {
+                            power = -CGFloat.pi
+                            defaultDrone.force.dy = defaultDrone.powerUpperLimit
+                            dashboardPointer.zRotation = power
+                        }
+                    }
                 }
                 
                 if (touch.location(in: cameraNode).x / self.frame.minX) > 0.5 {
@@ -155,10 +193,12 @@ class GameScene: SKScene, ChangeSceneDelegate{
             let tmp = (z*180/Double.pi).rounded(.toNearestOrAwayFromZero)
             let xD = (x*180/Double.pi).rounded(.toNearestOrAwayFromZero)
             let yD = (y*180/Double.pi).rounded(.toNearestOrAwayFromZero)
-            let rotation = -CGFloat(xD*Double.pi/180)
+            let rotation = GameViewController.orientation * CGFloat(xD*Double.pi/180)
+            // there is a way to offset the rotation by minus the initial rotation when the game first lauches so that the player can play this when they lie down. but I am not going to add it right now
             //print("x:", xD, "y:", yD, "z:", tmp)
             //print(z, tmp, rotation)o
             defaultDrone.body.zRotation = rotation
+            level.zRotation = rotation
             defaultDrone.applyForce()
         }
     }
