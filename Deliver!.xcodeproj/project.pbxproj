@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6636E7DB23DCF6C800E00DA7 /* DroneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6636E7DA23DCF6C800E00DA7 /* DroneDelegate.swift */; };
 		664C7BA2231D8B31001A0F78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C7BA1231D8B31001A0F78 /* AppDelegate.swift */; };
 		664C7BA4231D8B31001A0F78 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BA3231D8B31001A0F78 /* GameScene.sks */; };
 		664C7BA6231D8B31001A0F78 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BA5231D8B31001A0F78 /* Actions.sks */; };
@@ -15,9 +16,11 @@
 		664C7BAD231D8B31001A0F78 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAB231D8B31001A0F78 /* Main.storyboard */; };
 		664C7BAF231D8B31001A0F78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAE231D8B31001A0F78 /* Assets.xcassets */; };
 		66684076236BAA2F00BF7E73 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66684075236BAA2F00BF7E73 /* MenuScene.swift */; };
+		66AD5EAF23DDD6CE006E78B1 /* DroneAudio.aac in Resources */ = {isa = PBXBuildFile; fileRef = 66AD5EAE23DDD6CE006E78B1 /* DroneAudio.aac */; };
+		66AD5EB723DE4B51006E78B1 /* DroneTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 66AD5EB623DE4B51006E78B1 /* DroneTileSet.sks */; };
+		66AD5EB923DE4E99006E78B1 /* Tutorial.sks in Resources */ = {isa = PBXBuildFile; fileRef = 66AD5EB823DE4E99006E78B1 /* Tutorial.sks */; };
 		66C7BE5523CF87F800D9ED30 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C7BE5423CF87F800D9ED30 /* Button.swift */; };
 		66C7BE5723CFB51F00D9ED30 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 66C7BE5623CFB51F00D9ED30 /* MenuScene.sks */; };
-		66C7BE5923CFB54000D9ED30 /* Tutorial.sks in Resources */ = {isa = PBXBuildFile; fileRef = 66C7BE5823CFB54000D9ED30 /* Tutorial.sks */; };
 		66C7BE5B23CFB58B00D9ED30 /* Smoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = 66C7BE5A23CFB58B00D9ED30 /* Smoke.sks */; };
 		66D26D8B234648A100626F8F /* Drone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D26D8A234648A100626F8F /* Drone.swift */; };
 		66D52C18233282C4005CEBC6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D52C17233282C4005CEBC6 /* State.swift */; };
@@ -25,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6636E7DA23DCF6C800E00DA7 /* DroneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroneDelegate.swift; sourceTree = "<group>"; };
 		664C7B9E231D8B31001A0F78 /* Drone!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drone!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		664C7BA1231D8B31001A0F78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		664C7BA3231D8B31001A0F78 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -35,9 +39,11 @@
 		664C7BAE231D8B31001A0F78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		664C7BB3231D8B31001A0F78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66684075236BAA2F00BF7E73 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		66AD5EAE23DDD6CE006E78B1 /* DroneAudio.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroneAudio.aac; sourceTree = "<group>"; };
+		66AD5EB623DE4B51006E78B1 /* DroneTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DroneTileSet.sks; sourceTree = "<group>"; };
+		66AD5EB823DE4E99006E78B1 /* Tutorial.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tutorial.sks; sourceTree = "<group>"; };
 		66C7BE5423CF87F800D9ED30 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		66C7BE5623CFB51F00D9ED30 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
-		66C7BE5823CFB54000D9ED30 /* Tutorial.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tutorial.sks; sourceTree = "<group>"; };
 		66C7BE5A23CFB58B00D9ED30 /* Smoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Smoke.sks; sourceTree = "<group>"; };
 		66D26D8A234648A100626F8F /* Drone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drone.swift; sourceTree = "<group>"; };
 		66D52C17233282C4005CEBC6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -75,21 +81,24 @@
 			isa = PBXGroup;
 			children = (
 				664C7BA1231D8B31001A0F78 /* AppDelegate.swift */,
-				664C7BA3231D8B31001A0F78 /* GameScene.sks */,
-				664C7BA5231D8B31001A0F78 /* Actions.sks */,
-				664C7BA7231D8B31001A0F78 /* GameScene.swift */,
 				66C7BE5623CFB51F00D9ED30 /* MenuScene.sks */,
-				66C7BE5823CFB54000D9ED30 /* Tutorial.sks */,
-				66C7BE5A23CFB58B00D9ED30 /* Smoke.sks */,
-				66684075236BAA2F00BF7E73 /* MenuScene.swift */,
-				664C7BA9231D8B31001A0F78 /* GameViewController.swift */,
-				66EA770323A1E1960010DCE4 /* Devices.swift */,
-				664C7BAB231D8B31001A0F78 /* Main.storyboard */,
+				664C7BA3231D8B31001A0F78 /* GameScene.sks */,
+				66AD5EB823DE4E99006E78B1 /* Tutorial.sks */,
 				664C7BAE231D8B31001A0F78 /* Assets.xcassets */,
+				66AD5EB623DE4B51006E78B1 /* DroneTileSet.sks */,
+				664C7BA5231D8B31001A0F78 /* Actions.sks */,
+				66C7BE5A23CFB58B00D9ED30 /* Smoke.sks */,
+				664C7BA9231D8B31001A0F78 /* GameViewController.swift */,
+				66684075236BAA2F00BF7E73 /* MenuScene.swift */,
+				664C7BA7231D8B31001A0F78 /* GameScene.swift */,
+				66EA770323A1E1960010DCE4 /* Devices.swift */,
 				66D52C17233282C4005CEBC6 /* State.swift */,
 				66D26D8A234648A100626F8F /* Drone.swift */,
-				664C7BB3231D8B31001A0F78 /* Info.plist */,
+				6636E7DA23DCF6C800E00DA7 /* DroneDelegate.swift */,
 				66C7BE5423CF87F800D9ED30 /* Button.swift */,
+				664C7BAB231D8B31001A0F78 /* Main.storyboard */,
+				66AD5EAE23DDD6CE006E78B1 /* DroneAudio.aac */,
+				664C7BB3231D8B31001A0F78 /* Info.plist */,
 			);
 			path = "Deliver!";
 			sourceTree = "<group>";
@@ -154,9 +163,11 @@
 			files = (
 				664C7BAD231D8B31001A0F78 /* Main.storyboard in Resources */,
 				664C7BA4231D8B31001A0F78 /* GameScene.sks in Resources */,
+				66AD5EB723DE4B51006E78B1 /* DroneTileSet.sks in Resources */,
+				66AD5EB923DE4E99006E78B1 /* Tutorial.sks in Resources */,
 				66C7BE5B23CFB58B00D9ED30 /* Smoke.sks in Resources */,
+				66AD5EAF23DDD6CE006E78B1 /* DroneAudio.aac in Resources */,
 				664C7BAF231D8B31001A0F78 /* Assets.xcassets in Resources */,
-				66C7BE5923CFB54000D9ED30 /* Tutorial.sks in Resources */,
 				66C7BE5723CFB51F00D9ED30 /* MenuScene.sks in Resources */,
 				664C7BA6231D8B31001A0F78 /* Actions.sks in Resources */,
 			);
@@ -169,6 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6636E7DB23DCF6C800E00DA7 /* DroneDelegate.swift in Sources */,
 				664C7BA8231D8B31001A0F78 /* GameScene.swift in Sources */,
 				66D26D8B234648A100626F8F /* Drone.swift in Sources */,
 				664C7BAA231D8B31001A0F78 /* GameViewController.swift in Sources */,
@@ -315,7 +327,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = LDB5QZMQ6L;
 				INFOPLIST_FILE = "Deliver!/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -336,7 +348,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = LDB5QZMQ6L;
 				INFOPLIST_FILE = "Deliver!/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

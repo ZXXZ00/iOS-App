@@ -13,7 +13,7 @@ import GameplayKit
 class GameViewController: UIViewController{
     
     static var sensitivity: CGFloat = 100.0
-    static var sizeCoefficient: CGFloat = 1.0
+    static var sizeCoefficient: CGFloat = 0.75
     static var orientation: CGFloat = 1
     
     override func viewDidLoad() {
@@ -28,7 +28,7 @@ class GameViewController: UIViewController{
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             print(UserDefaults.standard.double(forKey: "LastRun"))
-            if UserDefaults.standard.double(forKey: "LastRun") == 0.0 {
+            if UserDefaults.standard.double(forKey: "LastRun") != 0.0 {
                 print("Tutorial")
                 if let scene = GameScene(fileNamed: "Tutorial") {
                     scene.scaleMode = .aspectFill
@@ -37,7 +37,6 @@ class GameViewController: UIViewController{
                 }
             } else {
                 print("GameScene")
-                /*
                 if let scene = GameScene(fileNamed: "GameScene") {
                     // Set the scale mode to scale to fit the window
                     scene.scaleMode = .aspectFill
@@ -45,7 +44,7 @@ class GameViewController: UIViewController{
                     
                     // Present the scene
                     view.presentScene(scene)
-                } */
+                } /*
                 let texture1 = SKTexture(imageNamed: "clouds")
                 let texture2 = SKTexture(imageNamed: "background")
                 let texture = [texture2]
@@ -57,12 +56,11 @@ class GameViewController: UIViewController{
                             view.presentScene(scene)
                         }
                     }
-                }
+                } */
             }
             let date = Date()
             let time: Double = Double(date.timeIntervalSince1970)
             UserDefaults.standard.set(time, forKey: "LastRun")
-            print(time)
             
             view.ignoresSiblingOrder = true
             

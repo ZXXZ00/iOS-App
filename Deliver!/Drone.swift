@@ -21,6 +21,19 @@ class Drone {
     let powerLowerLimit: CGFloat
     let powerUpperLimit: CGFloat
     
+    var delegate: DroneDelegate?
+    
+    var isCapacityFull: Bool = false {
+        didSet {
+            if self.isCapacityFull {
+                delegate?.modifySprite(spriteName: "load", alpha: 1.0)
+            } else {
+                delegate?.modifySprite(spriteName: "load", alpha: 0.5)
+            }
+        }
+        // if the drone's capacity is full, it should not be able to load anymore, so the load button should gray out.
+    }
+    
     init(droneBodyName: String, collectionOfRotors arr: [(CGPoint, String)]) {
         // it takes the name of the file of the drone body design and collections of rotors, which is an array of tuple.
         //The first part of the tuple is the location of the rotor relative to the center of the drone body. The second part is the file name.
@@ -98,6 +111,7 @@ class Drone {
             body.physicsBody?.applyForce(verticalVector, at: position)
             body.physicsBody?.applyForce(horizontalVector, at: position)
         }
+        //print(bodyP)
     }
     
     func startEngine() {
