@@ -30,7 +30,7 @@ class GameViewController: UIViewController{
             print(UserDefaults.standard.double(forKey: "LastRun"))
             if UserDefaults.standard.double(forKey: "LastRun") != 0.0 {
                 print("Tutorial")
-                if let scene = GameScene(fileNamed: "Tutorial") {
+                if let scene = TutorialScene(fileNamed: "Tutorial") {
                     scene.scaleMode = .aspectFill
                     scene.size = self.view.frame.size
                     view.presentScene(scene)
@@ -66,6 +66,7 @@ class GameViewController: UIViewController{
             
             view.showsFPS = true
             view.showsNodeCount = true
+            //view.showsPhysics = true
         }
         
     }

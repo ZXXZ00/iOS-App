@@ -29,7 +29,7 @@ class GameScene: SKScene, DroneDelegate {
     var dx: CGFloat = 0.0 // dx is change in x direction
     let cameraNode = SKCameraNode()
     var background: SKNode?
-    var warehouse: SKNode?
+    var warehouse: SKSpriteNode?
     var houses: [SKNode] = []
     // SKSpriteNode below are dashboard section
     let dashboard = SKSpriteNode(imageNamed: "dashboard")
@@ -49,31 +49,11 @@ class GameScene: SKScene, DroneDelegate {
     
     
     override func didMove(to view: SKView) {
-        startDeviceMotion()
+    
+        //startDeviceMotion()
         drone.addAll(self)
         
-        let coeff:CGFloat = GameViewController.sizeCoefficient
-        print("coeff", coeff)
-        background = childNode(withName: "background")
-        background!.physicsBody = SKPhysicsBody(edgeLoopFrom: background!.frame)
-        background?.setScale(coeff)
-        if let gFrame = background?.childNode(withName: "ground")?.frame {
-            let rect = CGRect(x: gFrame.minX*coeff, y: gFrame.minY*coeff, width: gFrame.width*coeff, height: (gFrame.height/2-5)*coeff)
-            // create physics body for ground from ground.frame
-            let rectNode = SKShapeNode(rect: rect)
-            rectNode.physicsBody = SKPhysicsBody(edgeLoopFrom: rect)
-            rectNode.alpha = 0.0
-            self.addChild(rectNode)
-        }
-        warehouse = background?.childNode(withName: "warehouse")
-        if let pos = warehouse?.position {
-            drone.body.position = CGPoint(x: pos.x*coeff, y: pos.y*coeff)
-        }
-        
-        //resizeAssets(parent: self, baseName: "cloud", limit: 10)
-        if let cloud = childNode(withName: "cloud") {
-            cloud.setScale(coeff)
-        }
+        setupSKS()
         
         cameraSetup()
         
@@ -87,6 +67,34 @@ class GameScene: SKScene, DroneDelegate {
     
     @objc func dropPackage() {
         
+    }
+    
+    func setupSKS () {
+        let coeff:CGFloat = GameViewController.sizeCoefficient
+        print("coeff", coeff)
+        background = childNode(withName: "background")
+        background!.physicsBody = SKPhysicsBody(edgeLoopFrom: background!.frame)
+        background?.setScale(coeff)
+        if let gFrame = background?.childNode(withName: "ground")?.frame {
+            let rect = CGRect(x: gFrame.minX*coeff, y: gFrame.minY*coeff, width: gFrame.width*coeff, height: (gFrame.height/2-5)*coeff)
+            // create physics body for ground from ground.frame
+            let rectNode = SKShapeNode(rect: rect)
+            rectNode.physicsBody = SKPhysicsBody(edgeLoopFrom: rect)
+            rectNode.alpha = 0.0
+            rectNode.physicsBody?.isDynamic = false
+            self.addChild(rectNode)
+        }
+        warehouse = background?.childNode(withName: "warehouse") as? SKSpriteNode
+        //warehouse!.physicsBody = SKPhysicsBody(texture: warehouse!.texture!, size: warehouse!.texture!.size())
+        //warehouse!.physicsBody?.isDynamic = false
+        if let pos = warehouse?.position {
+            drone.body.position = CGPoint(x: (pos.x+25)*coeff, y: (pos.y+111)*coeff)
+        }
+        
+        //resizeAssets(parent: self, baseName: "cloud", limit: 10)
+        if let cloud = childNode(withName: "cloud") {
+            cloud.setScale(coeff)
+        }
     }
     
     func modifySprite(spriteName: String, alpha: CGFloat) {
@@ -151,7 +159,7 @@ class GameScene: SKScene, DroneDelegate {
         }
         drone.startEngine()
         //setAudio()
-        dashboardPointer.run(SKAction.rotate(toAngle: power, duration: 2, shortestUnitArc: true)) {
+        dashboardPointer.run(SKAction.rotate(toAngle: power, duration: 0.5, shortestUnitArc: true)) {
             self.isEngineStarted = true
         }
     }
@@ -181,10 +189,10 @@ class GameScene: SKScene, DroneDelegate {
         dashboardPointer.position = center
         level.position = center
         line.position = center
-        dashboard.zPosition = 1
-        dashboardPointer.zPosition = 2
-        level.zPosition = 2
-        line.zPosition = 3
+        dashboard.zPosition = 3
+        dashboardPointer.zPosition = 5
+        level.zPosition = 5
+        line.zPosition = 6
         cameraNode.addChild(dashboard)
         cameraNode.addChild(dashboardPointer)
         cameraNode.addChild(level)
@@ -197,8 +205,8 @@ class GameScene: SKScene, DroneDelegate {
         load.setScale(GameViewController.sizeCoefficient)
         drop.position = CGPoint(x: self.frame.minX+100*GameViewController.sizeCoefficient, y: self.frame.minY+100*GameViewController.sizeCoefficient)
         load.position = CGPoint(x: self.frame.minX+100*GameViewController.sizeCoefficient, y: self.frame.minY+200*GameViewController.sizeCoefficient)
-        drop.zPosition = 1
-        load.zPosition = 1
+        drop.zPosition = 4
+        load.zPosition = 4
         cameraNode.addChild(drop)
         cameraNode.addChild(load)
         
@@ -212,7 +220,9 @@ class GameScene: SKScene, DroneDelegate {
 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        if !isEngineStarted {
+            startDeviceMotion()
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

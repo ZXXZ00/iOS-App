@@ -2,10 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/adam/Documents/Deliver!/Deliver!/DroneAudio.aac"
-      assignedFileDataType = "public.make-source">
-   </FileRef>
-   <FileRef
       location = "self:Deliver!.xcodeproj">
    </FileRef>
 </Workspace>
