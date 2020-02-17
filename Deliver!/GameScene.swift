@@ -14,7 +14,10 @@ import AVKit
 
 class GameScene: SKScene, DroneDelegate {
     
+    var sksFileName = ""
+    
     let drone = Drone()
+    var initalPosition = CGPoint(x: 0, y: 0)
     static let gravity = CGFloat(9.8)
     static let PIXELRATIO = CGFloat(150)
     // pixel ratio of 150 pixels = 1 meter
@@ -31,6 +34,7 @@ class GameScene: SKScene, DroneDelegate {
     var background: SKNode?
     var warehouse: SKSpriteNode?
     var houses: [SKNode] = []
+    var boxes: [SKNode] = []
     // SKSpriteNode below are dashboard section
     let dashboard = SKSpriteNode(imageNamed: "dashboard")
     let dashboardPointer = SKSpriteNode(imageNamed: "pointer")
@@ -62,11 +66,21 @@ class GameScene: SKScene, DroneDelegate {
     }
     
     @objc func loadPackage() {
-        
+        let box = SKSpriteNode(imageNamed: "box")
+        box.name = "box\(boxes.count)"
+        boxes.append(box)
+        box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
+        box.physicsBody?.isDynamic = false
     }
     
     @objc func dropPackage() {
-        
+        let box = boxes.removeLast()
+        box.position = drone.body.position
+        box.alpha = 0;
+        let fadeIn = SKAction.fadeIn(withDuration: 0.5)
+        addChild(box)
+        box.run(fadeIn)
+        box.physicsBody?.isDynamic = true
     }
     
     func setupSKS () {
@@ -88,7 +102,13 @@ class GameScene: SKScene, DroneDelegate {
         //warehouse!.physicsBody = SKPhysicsBody(texture: warehouse!.texture!, size: warehouse!.texture!.size())
         //warehouse!.physicsBody?.isDynamic = false
         if let pos = warehouse?.position {
-            drone.body.position = CGPoint(x: (pos.x+25)*coeff, y: (pos.y+111)*coeff)
+            initalPosition = CGPoint(x: (pos.x+25)*coeff, y: (pos.y+111)*coeff)
+            drone.body.position = initalPosition
+        }
+        if let childrens = background?.children {
+            for house in childrens {
+                
+            }
         }
         
         //resizeAssets(parent: self, baseName: "cloud", limit: 10)
@@ -184,7 +204,7 @@ class GameScene: SKScene, DroneDelegate {
         dashboardPointer.setScale(GameViewController.sizeCoefficient)
         level.setScale(GameViewController.sizeCoefficient)
         line.setScale(GameViewController.sizeCoefficient)
-        let center = CGPoint(x: self.frame.maxX-150*GameViewController.sizeCoefficient, y: self.frame.maxY-150*GameViewController.sizeCoefficient)
+        let center = CGPoint(x: self.frame.maxX-150*GameViewController.sizeCoefficient, y: self.frame.maxY-140*GameViewController.sizeCoefficient)
         dashboard.position = center
         dashboardPointer.position = center
         level.position = center
@@ -210,12 +230,23 @@ class GameScene: SKScene, DroneDelegate {
         cameraNode.addChild(drop)
         cameraNode.addChild(load)
         
+        load.action = #selector(GameScene.reset)
+        load.target = self
+        
+        yellowSign.name = "yellowSign"
+        redSign.name = "redSign"
         yellowSign.alpha = 0.0
         redSign.alpha = 0.0
         cameraNode.addChild(yellowSign)
         cameraNode.addChild(redSign)
         
         addChild(cameraNode)
+    }
+    
+    @objc func reset() {
+        let scene = GameScene(fileNamed: sksFileName)
+        scene?.sksFileName = sksFileName
+        view?.presentScene(scene)
     }
 
     
@@ -267,6 +298,7 @@ class GameScene: SKScene, DroneDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         previousTime = 0.0
+        //reset()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -296,7 +328,9 @@ class GameScene: SKScene, DroneDelegate {
                 drone.body.zRotation = rotation
                 level.zRotation = rotation
             }
-            drone.applyForce()
+            if isEngineStarted {
+                drone.applyForce()
+            }
         }
         
         // if drone is too far away from the station, it will loose connectivity to the station and crash.
@@ -309,6 +343,10 @@ class GameScene: SKScene, DroneDelegate {
                 isEngineStarted = false
                 drone.force.dy = 0
                 dashboardPointer.run(SKAction.rotate(toAngle: 0, duration: 1.0/60.0, shortestUnitArc: true))
+                for rotor in drone.rotors {
+                    rotor.removeAllActions()
+                    rotor.xScale = drone.rotorScale
+                }
             } else if abs(drone.body.position.x) > (xWarning-1000) {
                 if !redSign.hasActions() {
                     redSign.run(.repeatForever(fadeInAndOut))
@@ -324,6 +362,7 @@ class GameScene: SKScene, DroneDelegate {
                 yellowSign.run(.repeatForever(fadeInAndOut))
                 drone.force.dy = drone.powerLowerLimit
                 dashboardPointer.run(SKAction.rotate(toAngle: 0, duration: 1.0/60.0, shortestUnitArc: true))
+                power = 0
             } else if drone.body.position.y > (yWarning-300) {
                 if !yellowSign.hasActions() {
                     yellowSign.run(.repeatForever(fadeInAndOut))
@@ -334,5 +373,11 @@ class GameScene: SKScene, DroneDelegate {
             }
         }
         
+    }
+}
+
+extension GameScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        //
     }
 }

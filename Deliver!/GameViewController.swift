@@ -28,17 +28,19 @@ class GameViewController: UIViewController{
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             print(UserDefaults.standard.double(forKey: "LastRun"))
-            if UserDefaults.standard.double(forKey: "LastRun") != 0.0 {
+            if UserDefaults.standard.double(forKey: "LastRun") == 0.0 {
                 print("Tutorial")
-                if let scene = TutorialScene(fileNamed: "Tutorial") {
+                if let scene = TutorialSceneEngine(fileNamed: "Tutorial") {
+                    scene.sksFileName = "Tutorial"
                     scene.scaleMode = .aspectFill
                     scene.size = self.view.frame.size
                     view.presentScene(scene)
                 }
             } else {
                 print("GameScene")
-                if let scene = GameScene(fileNamed: "GameScene") {
+                if let scene = GameScene(fileNamed: "Tutorial") {
                     // Set the scale mode to scale to fit the window
+                    scene.sksFileName = "Tutorial"
                     scene.scaleMode = .aspectFill
                     scene.size = self.view.frame.size
                     
