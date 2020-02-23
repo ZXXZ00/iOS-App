@@ -10,18 +10,19 @@ import SpriteKit
 
 class TutorialSceneEngine: GameScene {
     
-    let welcome = SKLabelNode(text: "Welcome to Drone! \nLet's follow this tutorial to learn to how control the drone.")
+    let welcome = SKLabelNode(text: "Welcome to Drone! Let's follow this tutorial to learn to how control the drone.")
+    let light = SKLabelNode(text: "Engine indication light")
     let startEngine = SKLabelNode(text: "First click screen to start the engine.")
     let enginePower = SKLabelNode(text: "Swipe up or down on the right side of your screen to control the engine power.")
     let dashboardExplain = SKLabelNode(text: "When it is flying at 50% of power, upward force is equal to the weight of the drone")
     let increaseToMax = SKLabelNode(text: "Try to swipe up several times to increase the power to maixmum.")
-    let heightWarning = SKLabelNode(text: "If you reach too high, you will see a yellow sign,")
-    let yellowSignMeaning = SKLabelNode(text: "it means you are too high and engine is going to decrease its power if you don't lower its height.")
+    let heightWarning = SKLabelNode(text: "If you reach too high, you will see a yellow sign, it means you are too high.")
+    let enginePowerExplain0 = SKLabelNode(text: "When the dial points to 0, it doesn't mean engine is completely shut off.")
+    let enginePowerExplain1 = SKLabelNode(text: "Only when the engine indication light is off, the engine is completely shut off.")
+    let yellowSignMeaning = SKLabelNode(text: "If you don't lower its height, engine is going to decrease its power and engine indication light will blink.")
     let attentionToDial = SKLabelNode(text: "Pay attention to the dial.")
-    let moveOn = SKLabelNode(text: "let's move on to learn how to control the flight direction")
-    let redSignWarning = SKLabelNode(text: "If you are too far away from the base station, you will see a red sign")
-    let finished0 = SKLabelNode(text: "Congradulations! You finished the tutorial.")
-    let finished1 = SKLabelNode(text: "You can play around or leave the tutorial.")
+    let finished0 = SKLabelNode(text: "Congradulations! You finished the tutorial part 1.")
+    let finished1 = SKLabelNode(text: "You can play around or continue to tutorial part 2 by tapping the arrow.")
     /*
     let locations = ["welcom": CGPoint(x: 0, y: 0),
                      "startEngine": CGPoint(x: 0,y: -100*GameViewController.sizeCoefficient),
@@ -33,6 +34,7 @@ class TutorialSceneEngine: GameScene {
     let arrowDown = SKSpriteNode(imageNamed: "arrow_big")
     let rightSide = SKShapeNode(rectOf: CGSize(width: 2000, height: 2000))
     let smallArrow = SKSpriteNode(imageNamed: "arrow_sm")
+    let nextButton = Button(imageNamed: "arrow_big")
     
     override func didMove(to view: SKView) {
         isTakingUserInput = false
@@ -40,10 +42,20 @@ class TutorialSceneEngine: GameScene {
         super.didMove(to: view)
         configText(fontName: "ChalkboardSE-Bold", fontColor: .white, fontSize: 28*GameViewController.sizeCoefficient)
         cameraNode.addChild(welcome)
+        smallArrow.position = CGPoint(x: frame.maxX-255*GameViewController.sizeCoefficient, y: frame.maxY-285*GameViewController.sizeCoefficient)
+        smallArrow.setScale(GameViewController.sizeCoefficient)
+        cameraNode.addChild(smallArrow)
+        cameraNode.addChild(light)
         cameraNode.addChild(startEngine)
         load.alpha = 0.0
         drop.alpha = 0.0
-        print(initalPosition)
+    }
+    
+    @objc func continueTutorial() { // continue to the next part of the tutorial
+        if let scene = TutorialSceneRotation(fileNamed: "Tutorial.sks") {
+            scene.currentSceneName = "Tutorial"
+            view?.presentScene(scene, transition: SKTransition.fade(with: .black, duration: 3))
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -52,6 +64,8 @@ class TutorialSceneEngine: GameScene {
         }
         if let _ = cameraNode.childNode(withName: "welcome") {
             welcome.removeFromParent()
+            light.removeFromParent()
+            smallArrow.removeFromParent()
             startEngine.removeFromParent()
             cameraNode.addChild(enginePower)
             
@@ -75,7 +89,6 @@ class TutorialSceneEngine: GameScene {
             
             smallArrow.position = CGPoint(x: frame.maxX-274*GameViewController.sizeCoefficient, y: frame.maxY-232*GameViewController.sizeCoefficient)
             smallArrow.zRotation = -CGFloat.pi/2
-            smallArrow.setScale(GameViewController.sizeCoefficient)
                         
             let queue = DispatchQueue(label: "instruction")
             queue.async {
@@ -104,6 +117,7 @@ class TutorialSceneEngine: GameScene {
                 self.cameraNode.addChild(self.yellowSignMeaning)
                 self.heightWarning.run(fadeIn)
                 self.yellowSignMeaning.run(fadeIn)
+                sleep(1)
                 if let sign = self.cameraNode.childNode(withName: "yellowSign") {
                     while sign.alpha == 0 {
                         sleep(1)
@@ -118,37 +132,43 @@ class TutorialSceneEngine: GameScene {
                 self.yellowSignMeaning.run(fadeAway) {
                     self.yellowSignMeaning.removeFromParent()
                 }
+                self.cameraNode.addChild(self.enginePowerExplain0)
+                self.cameraNode.addChild(self.enginePowerExplain1)
                 sleep(7)
-                self.cameraNode.addChild(self.moveOn)
-                sleep(1)
-                self.moveOn.run(fadeOut) {
-                    self.moveOn.removeFromParent()
-                }
+                self.enginePowerExplain0.removeFromParent()
+                self.enginePowerExplain1.removeFromParent()
+                sleep(2)
                 self.attentionToDial.run(fadeAway) {
                     self.attentionToDial.removeFromParent()
-                    
                 }
-                //self.reset()
-                sleep(5)
-                
+                self.cameraNode.addChild(self.finished0)
+                self.cameraNode.addChild(self.finished1)
+                self.nextButton.zRotation = -CGFloat.pi/2
+                self.nextButton.setScale(GameViewController.sizeCoefficient)
+                self.nextButton.action = #selector(TutorialSceneEngine.continueTutorial)
+                self.nextButton.target = self
+                self.cameraNode.addChild(self.nextButton)
             }
             
         }
     }
     
     func configText(fontName: String, fontColor: UIColor, fontSize: CGFloat) {
-        let textArr = [welcome, startEngine, enginePower, dashboardExplain, increaseToMax, heightWarning, yellowSignMeaning, attentionToDial, moveOn]
-        let names = ["welcome", "startEngine", "enginePower", "dashboardExplain", "increaseToMax", "heightWarning", "yellowSignMeaning", "attentionToDial", "moveOn"]
+        let textArr = [welcome, light, startEngine, enginePower, dashboardExplain, increaseToMax, heightWarning, enginePowerExplain0, enginePowerExplain1, yellowSignMeaning, attentionToDial, finished0, finished1]
+        let names = ["welcome", "light", "startEngine", "enginePower", "dashboardExplain", "increaseToMax", "heightWarning", "enginePowerExplain0", "enginePowerExplain1", "yellowSignMeaning", "attentionToDial", "finished0", "finished1"]
         let coeff = GameViewController.sizeCoefficient
         let locations = ["welcom": CGPoint(x: 0, y: 0),
+                         "light": CGPoint(x: frame.maxX-255*coeff, y: frame.maxY-340*coeff),
                          "startEngine": CGPoint(x: 0,y: -100*coeff),
                          "enginePower": CGPoint(x: 150*coeff, y: -5*coeff),
                          "dashboardExplain": CGPoint(x: -130*coeff, y: frame.maxY-232*coeff),
                          "increaseToMax": CGPoint(x: 0, y: 200*coeff),
                          "heightWarning": CGPoint(x: 0, y: 50*coeff),
-                         "yellowSignMeaning": CGPoint(x: 0, y: 25*coeff),
+                         "enginePowerExplain0": CGPoint(x: 0, y: -50*coeff),
+                         "enginePowerExplain1": CGPoint(x: 0, y: -80*coeff),
+                         "yellowSignMeaning": CGPoint(x: 0, y: 20*coeff),
                          "attentionToDial": CGPoint(x: frame.maxX-230*coeff, y: frame.maxY-300*coeff),
-                         "moveOn": CGPoint(x:0, y: 100*coeff)]
+                         "finished0": CGPoint(x:0, y: 100*coeff),"finished1": CGPoint(x: 0, y:50*coeff)]
         for i in 0...textArr.count-1 {
             textArr[i].name = names[i]
             textArr[i].fontName = fontName

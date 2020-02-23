@@ -31,16 +31,18 @@ class GameViewController: UIViewController{
             if UserDefaults.standard.double(forKey: "LastRun") == 0.0 {
                 print("Tutorial")
                 if let scene = TutorialSceneEngine(fileNamed: "Tutorial") {
-                    scene.sksFileName = "Tutorial"
+                    scene.currentSceneName = "Tutorial"
                     scene.scaleMode = .aspectFill
                     scene.size = self.view.frame.size
                     view.presentScene(scene)
                 }
+                UserDefaults.standard.set(0, forKey: "level")
+                UserDefaults.standard.set(0, forKey: "gears")
             } else {
-                print("GameScene")
-                if let scene = GameScene(fileNamed: "Tutorial") {
+                print("Menue")
+                if let scene = MenuScene(fileNamed: "MenuScene") {
                     // Set the scale mode to scale to fit the window
-                    scene.sksFileName = "Tutorial"
+                    //scene.currentSceneName = "MenuScene"
                     scene.scaleMode = .aspectFill
                     scene.size = self.view.frame.size
                     
