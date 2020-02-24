@@ -31,6 +31,7 @@ class TutorialSceneRotation: GameScene {
         cameraNode.addChild(welcome)
         load.alpha = 0.0
         drop.alpha = 0.0
+        setting.alpha = 0.0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -53,6 +54,11 @@ class TutorialSceneRotation: GameScene {
                 self.cameraNode.addChild(self.redWarning)
                 self.cameraNode.addChild(self.consequence0)
                 self.cameraNode.addChild(self.consequence1)
+                if let sign = self.cameraNode.childNode(withName: "redSign") {
+                    while sign.alpha == 0 {
+                        sleep(1)
+                    }
+                }
                 self.traveOutOfRange.removeFromParent()
                 self.redWarning.removeFromParent()
                 self.consequence0.removeFromParent()
@@ -62,7 +68,7 @@ class TutorialSceneRotation: GameScene {
                 self.arrow.setScale(GameViewController.sizeCoefficient)
                 self.arrow.zRotation = CGFloat.pi/2
                 self.arrow.target = self
-                self.arrow.action = #selector(GameScene.nextLevel)
+                self.arrow.action = #selector(GameScene.backToMenu)
                 self.cameraNode.addChild(self.arrow)
             }
         }

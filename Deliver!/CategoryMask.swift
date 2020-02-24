@@ -11,4 +11,5 @@ enum CategoryMask: UInt32 {
     case body = 0b0001
     case rotor = 0b0010
     case gear = 0b0100
+    case landingDeck = 0b1000
 }

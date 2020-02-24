@@ -21,6 +21,8 @@ class Drone {
     let powerLowerLimit: CGFloat
     let powerUpperLimit: CGFloat
     
+    var allowRotation = true
+    
     var delegate: DroneDelegate?
     
     var isCapacityFull: Bool = false {
@@ -58,7 +60,7 @@ class Drone {
             rotor.physicsBody = SKPhysicsBody(rectangleOf: rotor.size)
             rotor.physicsBody?.mass = 2
             rotor.physicsBody?.categoryBitMask = CategoryMask.rotor.rawValue
-            rotor.physicsBody?.collisionBitMask = ~(CategoryMask.gear.rawValue)
+            rotor.physicsBody?.collisionBitMask = ~(CategoryMask.gear.rawValue | CategoryMask.landingDeck.rawValue)
             rotor.physicsBody?.restitution = 0.05
             let distance = SKConstraint.distance(zero, to: i.0, in: body)
             let degree = SKRange(constantValue: -atan(i.0.y/i.0.x))
@@ -75,7 +77,7 @@ class Drone {
         // default 0.05, but subject to change depends on the material
         body.physicsBody?.mass = 10
         body.physicsBody?.categoryBitMask = CategoryMask.body.rawValue
-        body.physicsBody?.collisionBitMask = ~(CategoryMask.gear.rawValue)
+        body.physicsBody?.collisionBitMask = ~(CategoryMask.gear.rawValue | CategoryMask.landingDeck.rawValue)
         body.setScale(bodyScale)
         
         mass = 2*(CGFloat(n)) + 10

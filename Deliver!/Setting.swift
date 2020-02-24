@@ -51,7 +51,7 @@ class Setting: SKSpriteNode {
         levels.action = #selector(GameScene.nextLevel)
         levels.position = CGPoint(x: 0, y: 0)
         levels.zPosition = 1
-        interface.addChild(levels)
+        //interface.addChild(levels)
         //menu.setScale(coeff)
         //menu.target = scene
         menu.action = #selector(GameScene.backToMenu)
@@ -89,6 +89,9 @@ class Setting: SKSpriteNode {
         interface.removeFromParent()
         if let owner = self.scene {
             owner.physicsWorld.speed = 1
+            if let gameScene = owner as? GameScene {
+                gameScene.isTakingUserInput = true
+            }
         }
     }
     
@@ -100,6 +103,9 @@ class Setting: SKSpriteNode {
                 abs(loc.y) <=  (self.size.height/2)*1.15 {
                 if let owner = scene {
                     addToScene(scene: owner)
+                    if let gameScene = owner as? GameScene {
+                        gameScene.isTakingUserInput = false
+                    }
                 }
             }
         }

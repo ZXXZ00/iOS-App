@@ -53,7 +53,7 @@ class GameScene: SKScene, DroneDelegate {
     var warehouse: SKSpriteNode?
     var houses: [SKNode] = []
     var boxes: [SKNode] = []
-    var gears: [SKNode] = []
+    var gears: [Bool] = []
     // SKSpriteNode below are dashboard section
     let dashboard = SKSpriteNode(imageNamed: "dashboard")
     let dashboardPointer = SKSpriteNode(imageNamed: "pointer")
@@ -71,6 +71,10 @@ class GameScene: SKScene, DroneDelegate {
     
     var droneSound: AVAudioPlayer!
     
+    // temporary solution
+    let congradulation = SKLabelNode(text: "Congradulations!")
+    let next_button = Button(imageNamed: "arrow_big")
+    
     override func didMove(to view: SKView) {
     
         //startDeviceMotion()
@@ -87,6 +91,13 @@ class GameScene: SKScene, DroneDelegate {
             load.alpha = 0
             drop.alpha = 0
         }
+        
+        // temporary solutions
+        next_button.target = self
+        next_button.action = #selector(GameScene.nextLevel)
+        next_button.position = CGPoint(x: 0, y: -100*GameViewController.sizeCoefficient)
+        next_button.setScale(GameViewController.sizeCoefficient)
+        next_button.zRotation = -CGFloat.pi/2
     }
     
     @objc func loadPackage() {
@@ -128,6 +139,11 @@ class GameScene: SKScene, DroneDelegate {
         warehouse = background?.childNode(withName: "warehouse") as? SKSpriteNode
         //warehouse!.physicsBody = SKPhysicsBody(texture: warehouse!.texture!, size: warehouse!.texture!.size())
         //warehouse!.physicsBody?.isDynamic = false
+        if let landingDeck = warehouse?.childNode(withName: "landing_deck") {
+            landingDeck.physicsBody?.categoryBitMask = CategoryMask.landingDeck.rawValue
+            landingDeck.physicsBody?.collisionBitMask = 0b0000
+            landingDeck.physicsBody?.contactTestBitMask = CategoryMask.drone.rawValue
+        }
         if let pos = warehouse?.position {
             initalPosition = CGPoint(x: (pos.x+25)*coeff, y: (pos.y+111)*coeff)
             drone.body.position = initalPosition
@@ -311,7 +327,7 @@ class GameScene: SKScene, DroneDelegate {
         if let scene = GameScene(fileNamed: nextSceneName) {
             let level = UserDefaults.standard.integer(forKey: "level")
             scene.currentSceneName = nextSceneName
-            scene.nextSceneName = "level\(level+1)"
+            scene.nextSceneName = "Level\(level+1)"
             view?.presentScene(scene, transition: SKTransition.fade(with: .black, duration: 2))
         }
     }
@@ -336,6 +352,7 @@ class GameScene: SKScene, DroneDelegate {
                         gear.physicsBody?.categoryBitMask = CategoryMask.gear.rawValue
                         gear.physicsBody?.contactTestBitMask = CategoryMask.drone.rawValue
                         gear.physicsBody?.collisionBitMask = 0b0000
+                        gears.append(true)
                     }
                 }
             }
@@ -360,7 +377,7 @@ class GameScene: SKScene, DroneDelegate {
                         dt = 0.01 // but dt has to be larger than 0
                     }
                     // calculate touch move speed
-                    if isEngineStarted {
+                    if isEngineStarted && isTakingUserInput {
                         let change = dx/dt/GameViewController.sensitivity
                         power = power - change*CGFloat.pi/180/drone.powerLimitCoefficient
                         if power <= 0 && power >= -CGFloat.pi {
@@ -406,7 +423,7 @@ class GameScene: SKScene, DroneDelegate {
         }
         
         if let data = self.motion.deviceMotion {
-            if isTakingUserInput {
+            if isTakingUserInput && drone.allowRotation {
                 let x = data.attitude.pitch
                 //let y = data.attitude.roll
                 //let z = data.attitude.yaw
@@ -476,7 +493,6 @@ class GameScene: SKScene, DroneDelegate {
                 yellowSign.alpha = 0.0
             }
         }
-        
     }
 }
 
@@ -496,8 +512,21 @@ extension GameScene: SKPhysicsContactDelegate {
                 crash()
             }
         case .gear:
-            print("gear")
-            contact.bodyA.node?.removeFromParent()
+            if let _ = contact.bodyA.node?.parent {
+                contact.bodyA.node?.removeFromParent()
+                gears.popLast()
+            }
+        case .landingDeck:
+            if gears.isEmpty {
+                cameraNode.addChild(congradulation)
+                cameraNode.addChild(next_button)
+                gears.append(false)
+                var level = UserDefaults.standard.integer(forKey: "level")
+                if level == 4 {
+                    level = 0
+                }
+                UserDefaults.standard.set(level+1, forKey: "level")
+            }
         default:
             break
         }
@@ -513,8 +542,21 @@ extension GameScene: SKPhysicsContactDelegate {
                 crash()
             }
         case .gear:
-            print("gear")
-            contact.bodyB.node?.removeFromParent()
+            if let _ = contact.bodyB.node?.parent {
+                contact.bodyB.node?.removeFromParent()
+                gears.popLast()
+            }
+        case .landingDeck:
+            if gears.isEmpty {
+                cameraNode.addChild(congradulation)
+                cameraNode.addChild(next_button)
+                gears.append(false)
+                var level = UserDefaults.standard.integer(forKey: "level")
+                if level == 4 {
+                    level = 0
+                }
+                UserDefaults.standard.set(level+1, forKey: "level")
+            }
         default:
             break
         }

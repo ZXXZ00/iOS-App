@@ -19,6 +19,7 @@
 		664C7BAD231D8B31001A0F78 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAB231D8B31001A0F78 /* Main.storyboard */; };
 		664C7BAF231D8B31001A0F78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664C7BAE231D8B31001A0F78 /* Assets.xcassets */; };
 		66684076236BAA2F00BF7E73 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66684075236BAA2F00BF7E73 /* MenuScene.swift */; };
+		666E1ACC2402CC6E00BBA829 /* Level4.sks in Resources */ = {isa = PBXBuildFile; fileRef = 666E1ACB2402CC6E00BBA829 /* Level4.sks */; };
 		6676955F23FB4F2500AC67A5 /* TutorialSceneRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6676955E23FB4F2500AC67A5 /* TutorialSceneRotation.swift */; };
 		66AD5EAF23DDD6CE006E78B1 /* DroneAudio.aac in Resources */ = {isa = PBXBuildFile; fileRef = 66AD5EAE23DDD6CE006E78B1 /* DroneAudio.aac */; };
 		66AD5EB723DE4B51006E78B1 /* DroneTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 66AD5EB623DE4B51006E78B1 /* DroneTileSet.sks */; };
@@ -48,6 +49,7 @@
 		664C7BAE231D8B31001A0F78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		664C7BB3231D8B31001A0F78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66684075236BAA2F00BF7E73 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		666E1ACB2402CC6E00BBA829 /* Level4.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level4.sks; sourceTree = "<group>"; };
 		6676955E23FB4F2500AC67A5 /* TutorialSceneRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSceneRotation.swift; sourceTree = "<group>"; };
 		66AD5EAE23DDD6CE006E78B1 /* DroneAudio.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroneAudio.aac; sourceTree = "<group>"; };
 		66AD5EB623DE4B51006E78B1 /* DroneTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DroneTileSet.sks; sourceTree = "<group>"; };
@@ -102,10 +104,10 @@
 				66DF4B432401FF4B003CE02C /* Levels */,
 				66DF4B412401CCBB003CE02C /* CategoryMask.swift */,
 				664C7BA9231D8B31001A0F78 /* GameViewController.swift */,
-				66684075236BAA2F00BF7E73 /* MenuScene.swift */,
 				66DB8E7423F2452100B98FC6 /* TutorialSceneEngine.swift */,
 				6676955E23FB4F2500AC67A5 /* TutorialSceneRotation.swift */,
 				664C7BA7231D8B31001A0F78 /* GameScene.swift */,
+				66684075236BAA2F00BF7E73 /* MenuScene.swift */,
 				66EA770323A1E1960010DCE4 /* Devices.swift */,
 				66D52C17233282C4005CEBC6 /* State.swift */,
 				66D26D8A234648A100626F8F /* Drone.swift */,
@@ -125,6 +127,7 @@
 				663ACA2E2402079C005A280B /* Level1.sks */,
 				663ACA3024020B29005A280B /* Level2.sks */,
 				663ACA3224020B45005A280B /* Level3.sks */,
+				666E1ACB2402CC6E00BBA829 /* Level4.sks */,
 			);
 			path = Levels;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				663ACA2F2402079C005A280B /* Level1.sks in Resources */,
 				66AD5EB923DE4E99006E78B1 /* Tutorial.sks in Resources */,
 				66C7BE5B23CFB58B00D9ED30 /* Smoke.sks in Resources */,
+				666E1ACC2402CC6E00BBA829 /* Level4.sks in Resources */,
 				66AD5EAF23DDD6CE006E78B1 /* DroneAudio.aac in Resources */,
 				664C7BAF231D8B31001A0F78 /* Assets.xcassets in Resources */,
 				66DF4B4024018567003CE02C /* MenuScene.sks in Resources */,
@@ -359,7 +363,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = LDB5QZMQ6L;
 				INFOPLIST_FILE = "Deliver!/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -380,7 +384,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = LDB5QZMQ6L;
 				INFOPLIST_FILE = "Deliver!/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

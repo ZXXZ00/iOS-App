@@ -37,8 +37,9 @@ class TutorialSceneEngine: GameScene {
     let nextButton = Button(imageNamed: "arrow_big")
     
     override func didMove(to view: SKView) {
-        isTakingUserInput = false
+        isTakingUserInput = true
         drone.body.physicsBody?.allowsRotation = false
+        drone.allowRotation = false
         super.didMove(to: view)
         configText(fontName: "ChalkboardSE-Bold", fontColor: .white, fontSize: 28*GameViewController.sizeCoefficient)
         cameraNode.addChild(welcome)
@@ -49,6 +50,7 @@ class TutorialSceneEngine: GameScene {
         cameraNode.addChild(startEngine)
         load.alpha = 0.0
         drop.alpha = 0.0
+        setting.alpha = 0.0
     }
     
     @objc func continueTutorial() { // continue to the next part of the tutorial

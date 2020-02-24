@@ -14,7 +14,10 @@ class MenuScene: SKScene{
         let level = UserDefaults.standard.integer(forKey: "level") + 1
         if let scene = GameScene(fileNamed: "Level\(level)") {
             scene.currentSceneName = "Level\(level)"
-            scene.nextSceneName = "level\(level+1)"
+            scene.nextSceneName = "Level\(level+1)"
+            if level < 10 {
+                scene.mode = "entry"
+            }
             view?.presentScene(scene, transition: SKTransition.fade(with: .black, duration: 3))
         }
     }
